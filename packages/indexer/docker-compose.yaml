@@ -6,7 +6,7 @@ services:
     command: postgres -N 2000
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=12345678
     networks:
       - local
     ports:
@@ -14,11 +14,11 @@ services:
 
   redis:
     image: redis:6.2.2
-    command: sh -c "redis-server --requirepass password"
+    command: sh -c "redis-server"
     networks:
       - local
     ports:
-      - 6379:6379
+      - 6380:6379
 
   rabbitmq:
     image: ipelegi/rabbitmq:latest
