@@ -67,6 +67,9 @@ const getNetworkConfig = (chainId?: number) => {
       case 84531:
         url = "https://goerli.base.org";
         break;
+      case 534351:
+        url = "https://sepolia-rpc.scroll.io/";
+        break;
       case 534353:
         url = "https://alpha-rpc.scroll.io/l2";
         break;
@@ -136,6 +139,7 @@ const config: HardhatUserConfig = {
     lineaTestnet: getNetworkConfig(59140),
     mumbai: getNetworkConfig(80001),
     baseGoerli: getNetworkConfig(84531),
+    scrollSepolia: getNetworkConfig(534351),
     scrollAlpha: getNetworkConfig(534353),
     sepolia: getNetworkConfig(11155111),
   },
@@ -156,6 +160,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://explorer.goerli.linea.build/api",
           browserURL: "https://explorer.goerli.linea.build",
+        },
+      },
+      {
+        network: "scrollSepolia",
+        chainId: 534351,
+        urls: {
+          apiURL: "https://blockscout.scroll.io/api",
+          browserURL: "https://sepolia-blockscout.scroll.io/",
         },
       },
       {
