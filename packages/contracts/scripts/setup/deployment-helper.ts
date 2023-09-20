@@ -33,6 +33,7 @@ export class DeploymentHelper {
 
     // Default: https://github.com/lifinance/create3-factory
     let create3FactoryAddress = "0x93FEC2C00BfE902F733B57c5a6CeeD7CD1384AE1";
+    // let create3FactoryAddress = "0xc7C69309971d44BBaCD53B87b63d436BF7405372"; // scroll-sepolia
     const code = await ethers.provider.getCode(create3FactoryAddress);
     if (!code || code === "0x") {
       create3FactoryAddress = Sdk.Common.Addresses.Create3Factory[chainId];
