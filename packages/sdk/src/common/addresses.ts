@@ -45,7 +45,7 @@ export const WNative: ChainIdToAddress = {
   [Network.BaseGoerli]: "0x4200000000000000000000000000000000000006",
   [Network.Linea]: "0xe5d7c2a44ffddf6b295a15c148167daaaf5cf34f",
   [Network.LineaTestnet]: "0x2c1b868d6596a18e32e61b901e4060c872647b6c",
-  [Network.ScrollSepolia]: "0xfa6a407c4C49Ea1D46569c1A4Bcf71C3437bE54c",
+  [Network.ScrollSepolia]: "0xfa6a407c4c49ea1d46569c1a4bcf71c3437be54c",
   [Network.ScrollAlpha]: "0x7160570bb153edd0ea1775ec2b2ac9b65f1ab61b",
   [Network.MantleTestnet]: "0xbaafec4b6ef4f5e0bafa850cbc48364b953efcf9",
   [Network.Zksync]: "0x5aea5775959fbc2557cc8789bc1bf90a239d9a91",

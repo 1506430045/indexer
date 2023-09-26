@@ -3,7 +3,7 @@ import { ChainIdToAddress, Network } from "../utils";
 export const Exchange: ChainIdToAddress = {
   [Network.Ethereum]: "0x83746de31fc8de985ffe46c1c20ea6d7d8f4ed3a",
   [Network.EthereumGoerli]: "0x83746de31fc8de985ffe46c1c20ea6d7d8f4ed3a",
-  [Network.ScrollSepolia]: "0xeb9A0379069d5739BD024EB41E277Ea811c4b89e",
+  [Network.ScrollSepolia]: "0xeb9a0379069d5739bd024eb41e277ea811c4b89e",
   [Network.ScrollAlpha]: "0x549380bfde8943f3c8ddb8be2132d012f8193e28",
   [Network.MantleTestnet]: "0xc04dd964ed36c0e4796f53a7168393ed4fc38ff6",
   [Network.LineaTestnet]: "0xf30ab0a2378d5dc1436f81c72d2784748a863938",
