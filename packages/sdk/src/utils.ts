@@ -143,6 +143,7 @@ export enum Network {
   LineaTestnet = 59140,
   Mumbai = 80001,
   BaseGoerli = 84531,
+  ScrollSepolia = 534351,
   ScrollAlpha = 534353,
   EthereumSepolia = 11155111,
   Zksync = 324,
