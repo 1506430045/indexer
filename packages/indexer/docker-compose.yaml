@@ -1,27 +1,27 @@
 version: "3"
 
 services:
-  postgres:
-    image: postgres:13.2
-    command: postgres -N 2000
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    networks:
-      - local
-    ports:
-      - 5432:5432
-
-  redis:
-    image: redis:6.2.2
-    command: sh -c "redis-server --requirepass password"
-    networks:
-      - local
-    ports:
-      - 6379:6379
+#  postgres:
+#    image: postgres:13.2
+#    command: postgres -N 2000
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=12345678
+#    networks:
+#      - local
+#    ports:
+#      - 5432:5432
+#
+#  redis:
+#    image: redis:6.2.2
+#    command: sh -c "redis-server"
+#    networks:
+#      - local
+#    ports:
+#      - 6380:6379
 
   rabbitmq:
-    image: ipelegi/rabbitmq:latest
+    image: rabbitmq:management
     container_name: 'rabbitmq'
     environment:
       - RABBITMQ_DEFAULT_USER=guest
