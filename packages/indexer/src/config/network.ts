@@ -702,6 +702,17 @@ export const getNetworkSettings = (): NetworkSettings => {
         realtimeSyncFrequencySeconds: 5,
         lastBlockLatency: 5,
         headBlockDelay: 10,
+        coingecko: {
+          networkId: "binance-smart-chain",
+        },
+        elasticsearch: {
+          indexes: {
+            activities: {
+              ...defaultNetworkSettings.elasticsearch?.indexes?.activities,
+              numberOfShards: 10,
+            },
+          },
+        },
         onStartup: async () => {
           // Insert the native currency
           await Promise.all([
@@ -715,10 +726,10 @@ export const getNetworkSettings = (): NetworkSettings => {
                   metadata
                 ) VALUES (
                   '\\x0000000000000000000000000000000000000000',
-                  'Ether',
-                  'ETH',
+                  'Binance Coin',
+                  'BNB',
                   18,
-                  '{"coingeckoCurrencyId": "ethereum", "image": "https://assets.coingecko.com/coins/images/279/large/ethereum.png"}'
+                  '{"coingeckoCurrencyId": "binancecoin", "image": "https://assets.coingecko.com/coins/images/12591/large/binance-coin-logo.png"}'
                 ) ON CONFLICT DO NOTHING
               `
             ),
