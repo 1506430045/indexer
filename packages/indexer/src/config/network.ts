@@ -30,6 +30,9 @@ export const getNetworkName = () => {
     case 324:
       return "zksync";
 
+    case 12008:
+      return "opside-zkevm";
+
     case 42161:
       return "arbitrum";
 
