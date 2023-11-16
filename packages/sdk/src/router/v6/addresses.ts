@@ -22,6 +22,7 @@ export const Router: ChainIdToAddress = {
   [Network.Base]: "0x1aed60a97192157fda7fb26267a439d523d09c5e",
   [Network.Linea]: "0x1aed60a97192157fda7fb26267a439d523d09c5e",
   [Network.Avalanche]: "0xc2c862322e9c97d6244a3506655da95f05246fd8",
+  [Network.OpsideZkevm]: "0x5cc0c7d237c1e0279bde1e851e6cafb8cfe15be3",
 };
 
 // Approval proxy
@@ -163,6 +164,7 @@ export const AlienswapModule: ChainIdToAddress = {
   [Network.BaseGoerli]: "0x527534529577b57548a1dbc0d7fb0088705a1965",
   [Network.Base]: "0x25210757f799423c908e4dbf8141dd10d51afbc6",
   [Network.EthereumSepolia]: "0x54e9b4580f8c180e8020cec7a330f189658e1329",
+  [Network.OpsideZkevm]: "0x3953c18bb9bbb8b43f9e4adf6e86b19bd020f4f7",
 };
 
 export const SudoswapModule: ChainIdToAddress = {

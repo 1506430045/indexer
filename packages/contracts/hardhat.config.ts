@@ -73,6 +73,9 @@ const getNetworkConfig = (chainId?: number) => {
       case 11155111:
         url = `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
         break;
+      case 12008:
+        url = "https://pre-alpha-zkrollup-rpc.opside.network/public";
+        break;
       default:
         throw new Error("Unsupported chain id");
     }
@@ -138,6 +141,7 @@ const config: HardhatUserConfig = {
     baseGoerli: getNetworkConfig(84531),
     scrollAlpha: getNetworkConfig(534353),
     sepolia: getNetworkConfig(11155111),
+    opsideZkevm: getNetworkConfig(12008),
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
@@ -172,6 +176,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api-goerli.basescan.org/api",
           browserURL: "https://goerli.basescan.org",
+        },
+      },
+      {
+        network: "opsideZkevm",
+        chainId: 12008,
+        urls: {
+          apiURL: "https://public.zkevm.opside.info/api",
+          browserURL: "https://public.zkevm.opside.info/",
         },
       },
     ],
