@@ -140,6 +140,7 @@ export const config = {
     { url: "https://opbnb-mainnet.nodereal.io/v1/34f5274ae22f44cd88739a067d4d9a26", weight: 300 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/0601375725ad4c9f8273d193de68cd5f", weight: 300 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/914171a9bcd741fda010cb7cc5a7113d", weight: 300 },
+    { url: "https://opbnb-mainnet.nodereal.io/v1/23823ed4d16e4a8984a1ae11fb21135a", weight: 300 },
   ]
 };
 
@@ -151,8 +152,8 @@ export function getNetworkBaseUrl() {
     randomWeight -= entry.weight;
     if (randomWeight <= 0) {
       // 返回被选中的URL
-      var url = entry.url
-      console.log("xxxxx-url: ", url)
+      // var url = entry.url
+      // console.log("xxxxx-url: ", url)
       return entry.url;
     }
   }
