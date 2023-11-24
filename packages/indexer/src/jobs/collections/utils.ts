@@ -1,5 +1,5 @@
 import { logger } from "@/common/logger";
-import { config } from "@/config/index";
+import {config, getNetworkBaseUrl} from "@/config/index";
 import { ethers } from "ethers";
 
 const erc721Interface = new ethers.utils.Interface([
@@ -14,7 +14,7 @@ const erc1155Interface = new ethers.utils.Interface([
 ]);
 
 export async function detectTokenStandard(contractAddress: string) {
-  const provider = new ethers.providers.JsonRpcProvider(config.baseNetworkHttpUrl);
+  const provider = new ethers.providers.JsonRpcProvider(getNetworkBaseUrl());
   const contract = new ethers.Contract(
     contractAddress,
     [...erc721Interface.fragments, ...erc1155Interface.fragments],
@@ -40,7 +40,7 @@ export async function detectTokenStandard(contractAddress: string) {
 }
 
 export async function getContractNameAndSymbol(contractAddress: string) {
-  const provider = new ethers.providers.JsonRpcProvider(config.baseNetworkHttpUrl);
+  const provider = new ethers.providers.JsonRpcProvider(getNetworkBaseUrl());
   const contract = new ethers.Contract(
     contractAddress,
     ["function name() view returns (string)", "function symbol() view returns (string)"],
@@ -64,7 +64,7 @@ export async function getContractNameAndSymbol(contractAddress: string) {
 }
 
 export async function getContractDeployer(contractAddress: string) {
-  const provider = new ethers.providers.JsonRpcProvider(config.baseNetworkHttpUrl);
+  const provider = new ethers.providers.JsonRpcProvider(getNetworkBaseUrl());
   const contract = new ethers.Contract(
     contractAddress,
     ["function owner() view returns (address)"],

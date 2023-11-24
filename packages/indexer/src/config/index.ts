@@ -1,3 +1,7 @@
+// @ts-ignore
+// @ts-ignore
+import { logger } from "@/common/logger";
+
 export const config = {
   version: String(process.env.VERSION),
   port: Number(process.env.PORT),
@@ -130,4 +134,29 @@ export const config = {
   rabbitPassword: String(process.env.RABBIT_PASSWORD),
   rabbitDisableQueuesConsuming: Boolean(Number(process.env.RABBIT_DISABLE_QUEUES_CONSUMING)),
   forceEnableRabbitJobsConsumer: Boolean(Number(process.env.FORCE_ENABLE_RABBIT_JOBS_CONSUMER)),
+  networkBaseUrlList: [
+    // { url: "https://opbnb-mainnet.nodereal.io/v1/6b12d198f6b343ea9fdd53db77c66d06", weight: 1500 },
+    { url: "https://opbnb-mainnet.nodereal.io/v1/cf8d5aa243bc4eb7b63c2dca6673d281", weight: 300 },
+    { url: "https://opbnb-mainnet.nodereal.io/v1/34f5274ae22f44cd88739a067d4d9a26", weight: 300 },
+    { url: "https://opbnb-mainnet.nodereal.io/v1/0601375725ad4c9f8273d193de68cd5f", weight: 300 },
+    { url: "https://opbnb-mainnet.nodereal.io/v1/914171a9bcd741fda010cb7cc5a7113d", weight: 300 },
+  ]
 };
+
+export function getNetworkBaseUrl() {
+  const totalWeight = config.networkBaseUrlList.reduce((sum, entry) => sum + entry.weight, 0);
+
+  let randomWeight = Math.random() * totalWeight;
+  for (const entry of config.networkBaseUrlList) {
+    randomWeight -= entry.weight;
+    if (randomWeight <= 0) {
+      // 返回被选中的URL
+      var url = entry.url
+      console.log("xxxxx-url: ", url)
+      return entry.url;
+    }
+  }
+
+  // 如果所有URL的权重都是0，或者发生其他问题，返回数组的第一个URL
+  return config.networkBaseUrlList[0].url;
+}
