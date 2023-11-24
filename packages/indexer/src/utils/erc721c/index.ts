@@ -2,7 +2,7 @@ import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 
 import { idb, redb } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { fromBuffer, toBuffer } from "@/common/utils";
 
 export type ERC721CConfig = {
@@ -26,7 +26,7 @@ export const getERC721CConfig = async (contract: string): Promise<ERC721CConfig 
           uint120 permittedContractReceiverAllowlistId
         )`,
       ]),
-      baseProvider
+      getBaseProvider()
     );
 
     const [transferValidator, securityPolicy] = await Promise.all([
@@ -139,7 +139,7 @@ export const refreshERC721COperatorWhitelist = async (transferValidator: string,
   const tv = new Contract(
     transferValidator,
     new Interface(["function getWhitelistedOperators(uint120 id) public view returns (address[])"]),
-    baseProvider
+    getBaseProvider()
   );
 
   const whitelist: string[] = await tv
@@ -180,7 +180,7 @@ export const refreshERC721CPermittedContractReceiverAllowlist = async (
     new Interface([
       "function getPermittedContractReceivers(uint120 id) public view returns (address[])",
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   const allowlist: string[] = await tv

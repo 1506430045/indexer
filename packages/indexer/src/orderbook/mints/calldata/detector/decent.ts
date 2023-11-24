@@ -9,7 +9,7 @@ import axios from "axios";
 import MerkleTree from "merkletreejs";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 import { Transaction } from "@/models/transactions";
 import {
@@ -65,7 +65,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
   const contract = new Contract(
     collection,
     new Interface([`function contractVersion() external view returns (uint32)`]),
-    baseProvider
+    getBaseProvider()
   );
 
   try {
@@ -82,7 +82,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
 
     const version = await contract.contractVersion();
     if (version < 8) {
-      const nft = new Contract(collection, v6Abi, baseProvider);
+      const nft = new Contract(collection, v6Abi, getBaseProvider());
       const [
         maxTokens,
         tokenPrice,
@@ -114,7 +114,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
         presaleMerkleRoot,
       };
     } else {
-      const nft = new Contract(collection, v8Abi, baseProvider);
+      const nft = new Contract(collection, v8Abi, getBaseProvider());
       const config = await nft.edition();
 
       editionConfig = {

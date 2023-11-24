@@ -1,7 +1,7 @@
 import { AddressZero } from "@ethersproject/constants";
 import { bn } from "@/common/utils";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 
 import { saveTransactionsV2 } from "@/models/transactions";
 
@@ -23,7 +23,7 @@ export type ContractAddress = {
 };
 
 export const fetchBlock = async (blockNumber: number) => {
-  const block = await baseProvider.getBlockWithTransactions(blockNumber);
+  const block = await getBaseProvider().getBlockWithTransactions(blockNumber);
   return block;
 };
 
@@ -103,7 +103,7 @@ export const getTracesFromBlock = async (blockNumber: number, retryMax = 10) => 
         params.push({ tracer: "callTracer" });
       }
 
-      traces = await baseProvider.send("debug_traceBlockByNumber", params);
+      traces = await getBaseProvider().send("debug_traceBlockByNumber", params);
     } catch (e) {
       retries++;
       await new Promise((resolve) => setTimeout(resolve, 200));
@@ -142,7 +142,7 @@ export const getTransactionTraceFromRPC = async (hash: string, retryMax = 10) =>
       if (!chainsWithoutCallTracer.includes(config.chainId)) {
         params.push({ tracer: "callTracer" });
       }
-      trace = await baseProvider.send("debug_traceTransaction", params);
+      trace = await getBaseProvider().send("debug_traceTransaction", params);
     } catch (e) {
       retries++;
       await new Promise((resolve) => setTimeout(resolve, 200));

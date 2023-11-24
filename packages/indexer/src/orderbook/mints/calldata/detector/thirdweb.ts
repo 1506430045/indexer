@@ -7,7 +7,7 @@ import * as Sdk from "@reservoir0x/sdk";
 import MerkleTree from "merkletreejs";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { config } from "@/config/index";
 import { Transaction } from "@/models/transactions";
 import {
@@ -49,7 +49,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
         )
       )`,
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   const results: CollectionMint[] = [];
@@ -258,7 +258,7 @@ export const extractByCollectionERC1155 = async (
         )
       )`,
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   const results: CollectionMint[] = [];

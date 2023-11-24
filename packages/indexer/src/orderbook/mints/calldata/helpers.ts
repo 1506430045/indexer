@@ -5,7 +5,7 @@ import { Contract } from "@ethersproject/contracts";
 import axios from "axios";
 
 import { idb } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, now, toBuffer } from "@/common/utils";
 import {
   CollectionMint,
@@ -30,7 +30,7 @@ export const getContractKind = async (
   const c = new Contract(
     contract,
     new Interface(["function supportsInterface(bytes4 interfaceId) view returns (bool)"]),
-    baseProvider
+    getBaseProvider()
   );
 
   try {
@@ -59,7 +59,7 @@ export const getMaxSupply = async (contract: string): Promise<string | undefined
         "function maxSupply() view returns (uint256)",
         "function MAX_SUPPLY() view returns (uint256)",
       ]),
-      baseProvider
+      getBaseProvider()
     );
 
     if (!maxSupply) {

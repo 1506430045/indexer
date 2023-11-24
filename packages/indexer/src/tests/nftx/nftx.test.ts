@@ -1,6 +1,6 @@
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
@@ -173,7 +173,7 @@ describe("NFTX", () => {
       1,
       DEFAULT_SLIPPAGE,
       config.chainId,
-      baseProvider
+      getBaseProvider()
     );
     if (info?.raw?.buy) {
       expect(parseFloat(info.raw.buy)).toBeGreaterThan(parseFloat("0.4"));

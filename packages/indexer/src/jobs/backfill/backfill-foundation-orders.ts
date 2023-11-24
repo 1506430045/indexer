@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 
 import { idb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
 import { orderUpdatesByIdJob } from "@/jobs/order-updates/order-updates-by-id-job";
@@ -46,7 +46,7 @@ if (config.doBackgroundWork) {
       });
 
       const exchange = new Sdk.Foundation.Exchange(config.chainId);
-      const contract = exchange.contract.connect(baseProvider);
+      const contract = exchange.contract.connect(getBaseProvider());
       await Promise.all(
         results.map(async (r) => {
           try {

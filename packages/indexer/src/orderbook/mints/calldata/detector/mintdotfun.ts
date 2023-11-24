@@ -3,7 +3,7 @@ import { Contract } from "@ethersproject/contracts";
 import * as Sdk from "@reservoir0x/sdk";
 import axios from "axios";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
 import { Transaction } from "@/models/transactions";
@@ -27,7 +27,7 @@ export const extractByCollection = async (collection: string): Promise<Collectio
         "function owner() external view returns (address)",
         "function mintOpen() external view returns (bool)",
       ]),
-      baseProvider
+      getBaseProvider()
     );
 
     const mintOpen = await nft.mintOpen();

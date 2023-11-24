@@ -5,7 +5,7 @@ import * as Sdk from "@reservoir0x/sdk";
 import axios from "axios";
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { redis } from "@/common/redis";
 import { bn, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -47,7 +47,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
       `,
       "function zoraFeeForAmount(uint256 quantity) view returns (address recipient, uint256 fee)",
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   try {
@@ -257,14 +257,14 @@ export const extractByCollectionERC1155 = async (
         )
       )`,
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   try {
     const zoraFactory = new Contract(
       Sdk.Zora.Addresses.ERC1155Factory[config.chainId],
       new Interface(["function defaultMinters() view returns (address[])"]),
-      baseProvider
+      getBaseProvider()
     );
     const defaultMinters = await zoraFactory.defaultMinters();
     let totalRewards: BigNumber | undefined;
@@ -281,7 +281,7 @@ export const extractByCollectionERC1155 = async (
         const s = new Contract(
           minter,
           new Interface(["function contractName() external view returns (string memory)"]),
-          baseProvider
+          getBaseProvider()
         );
 
         const contractName = await s.contractName();
@@ -299,7 +299,7 @@ export const extractByCollectionERC1155 = async (
                 )
               )`,
             ]),
-            baseProvider
+            getBaseProvider()
           );
 
           const [saleConfig, tokenInfo, mintFee] = await Promise.all([
@@ -398,7 +398,7 @@ export const extractByCollectionERC1155 = async (
                 )
               )`,
             ]),
-            baseProvider
+            getBaseProvider()
           );
 
           const [saleConfig, tokenInfo, mintFee] = await Promise.all([

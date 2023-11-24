@@ -11,7 +11,7 @@ import Joi from "joi";
 import { inject } from "@/api/index";
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { bn, formatPrice, fromBuffer, now, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { ApiKeyManager } from "@/models/api-keys";
@@ -795,7 +795,7 @@ export const getExecuteBuyV6Options: RouteOptions = {
         }
       }
 
-      const router = new Sdk.RouterV6.Router(config.chainId, baseProvider, {
+      const router = new Sdk.RouterV6.Router(config.chainId, getBaseProvider(), {
         x2y2ApiKey: payload.x2y2ApiKey ?? config.x2y2ApiKey,
         cbApiKey: config.cbApiKey,
         orderFetcherBaseUrl: config.orderFetcherBaseUrl,
@@ -847,12 +847,12 @@ export const getExecuteBuyV6Options: RouteOptions = {
           .map(({ rawQuote }) => bn(rawQuote))
           .reduce((a, b) => a.add(b), bn(0));
         if (buyInCurrency === Sdk.Common.Addresses.Native[config.chainId]) {
-          const balance = await baseProvider.getBalance(txSender);
+          const balance = await getBaseProvider().getBalance(txSender);
           if (!payload.skipBalanceCheck && bn(balance).lt(totalPrice)) {
             throw Boom.badData("Balance too low to proceed with transaction");
           }
         } else {
-          const erc20 = new Sdk.Common.Helpers.Erc20(baseProvider, buyInCurrency);
+          const erc20 = new Sdk.Common.Helpers.Erc20(getBaseProvider(), buyInCurrency);
 
           const balance = await erc20.getBalance(txSender);
           if (!payload.skipBalanceCheck && bn(balance).lt(totalPrice)) {

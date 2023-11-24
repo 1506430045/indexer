@@ -6,7 +6,7 @@ import * as Sdk from "@reservoir0x/sdk";
 
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
 import { now, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -448,7 +448,7 @@ export class OrderFixesJob extends AbstractRabbitMqJobHandler {
                     const poolContract = new Contract(
                       result.raw_data.pool,
                       new Interface([`function getAllHeldIds() view returns (uint256[])`]),
-                      baseProvider
+                      getBaseProvider()
                     );
 
                     let isLegit = false;

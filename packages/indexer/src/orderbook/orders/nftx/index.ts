@@ -7,7 +7,7 @@ import pLimit from "p-limit";
 
 import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { Sources } from "@/models/sources";
@@ -84,7 +84,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
         return;
       }
 
-      const poolFeatures = await Sdk.Nftx.Helpers.getPoolFeatures(orderParams.pool, baseProvider);
+      const poolFeatures = await Sdk.Nftx.Helpers.getPoolFeatures(orderParams.pool, getBaseProvider());
 
       // Force recheck at most once per hour
       const recheckCondition = orderParams.forceRecheck
@@ -143,7 +143,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
                   index + 1,
                   "sell",
                   slippage,
-                  baseProvider
+                  getBaseProvider()
                 );
                 tmpPriceList[index] = poolPrice;
               } catch {
@@ -410,7 +410,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
                 index + 1,
                 "buy",
                 slippage,
-                baseProvider
+                getBaseProvider()
               );
               tmpPriceList[index] = poolPrice;
             } catch {

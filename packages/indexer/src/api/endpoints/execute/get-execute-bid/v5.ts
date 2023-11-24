@@ -11,7 +11,7 @@ import Joi from "joi";
 import _ from "lodash";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, now, regex } from "@/common/utils";
 import { config } from "@/config/index";
 import { getExecuteError } from "@/orderbook/orders/errors";
@@ -495,18 +495,18 @@ export const getExecuteBidV5Options: RouteOptions = {
 
             // Check the maker's balance
 
-            const currency = new Sdk.Common.Helpers.Erc20(baseProvider, params.currency);
+            const currency = new Sdk.Common.Helpers.Erc20(getBaseProvider(), params.currency);
             const currencyBalance = await currency.getBalance(maker);
             if (bn(currencyBalance).lt(totalPrice)) {
               if ([WNATIVE, BETH].includes(params.currency)) {
-                const ethBalance = await baseProvider.getBalance(maker);
+                const ethBalance = await getBaseProvider().getBalance(maker);
                 if (bn(currencyBalance).add(ethBalance).lt(totalPrice)) {
                   return errors.push({
                     message: "Maker does not have sufficient balance",
                     orderIndex: i,
                   });
                 } else {
-                  const wnative = new Sdk.Common.Helpers.WNative(baseProvider, config.chainId);
+                  const wnative = new Sdk.Common.Helpers.WNative(getBaseProvider(), config.chainId);
                   const wrapTx = wnative.depositTransaction(maker, totalPrice.sub(currencyBalance));
 
                   steps[1].items.push({
@@ -1372,7 +1372,7 @@ export const getExecuteBidV5Options: RouteOptions = {
         steps[1].items = [];
         for (const [to, amount] of Object.entries(amounts)) {
           if (amount.gt(0)) {
-            const wnative = new Sdk.Common.Helpers.WNative(baseProvider, config.chainId);
+            const wnative = new Sdk.Common.Helpers.WNative(getBaseProvider(), config.chainId);
             const wrapTx = wnative.depositTransaction(maker, amount);
 
             steps[1].items.push({

@@ -8,7 +8,7 @@ import pLimit from "p-limit";
 
 import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { acquireLock, redis } from "@/common/redis";
 import tracer from "@/common/tracer";
 import { bn, now, toBuffer } from "@/common/utils";
@@ -246,7 +246,7 @@ export const save = async (
         // - the order is coming from OpenSea and it doesn't have a signature
       } else {
         try {
-          await order.checkSignature(baseProvider);
+          await order.checkSignature(getBaseProvider());
         } catch {
           return results.push({
             id,

@@ -2,7 +2,7 @@ import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatEther, formatUnits } from "@ethersproject/units";
 import crypto from "crypto";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 
 // --- BigNumbers ---
@@ -57,8 +57,8 @@ export const toTime = (dateString: string) => Math.floor(new Date(dateString).ge
 // that our provider is in front of end-users' providers so we do
 // lag behind for a few blocks to handle this edge-case).
 export const safeOracleTimestamp = async () => {
-  const latestBlockNumber = await baseProvider.getBlockNumber();
-  const block = await baseProvider.getBlock(latestBlockNumber - 2);
+  const latestBlockNumber = await getBaseProvider().getBlockNumber();
+  const block = await getBaseProvider().getBlock(latestBlockNumber - 2);
   return block.timestamp;
 };
 

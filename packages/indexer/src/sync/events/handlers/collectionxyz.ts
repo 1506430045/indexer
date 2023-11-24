@@ -3,7 +3,7 @@ import { Contract } from "@ethersproject/contracts";
 import { searchForCall } from "@georgeroman/evm-tx-simulator";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import { getEventData } from "@/events-sync/data";
 import { acceptsTokenIds } from "@/events-sync/data/collectionxyz";
@@ -353,7 +353,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
         const pool = parsedLog.args["poolAddress"].toLowerCase();
 
         // New pools will need encoded tokenIds from the AcceptsTokenIDs event
-        const receipt = await baseProvider.getTransactionReceipt(baseEventParams.txHash);
+        const receipt = await getBaseProvider().getTransactionReceipt(baseEventParams.txHash);
         const acceptsTokenIdsLog = receipt.logs
           .map((log) => {
             try {
@@ -374,7 +374,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
           "function externalFilter() public view returns (address)",
           "function poolType() public view returns (uint8)",
         ]);
-        const poolContract = new Contract(pool, poolIface, baseProvider);
+        const poolContract = new Contract(pool, poolIface, getBaseProvider());
         const poolType = await poolContract.poolType();
         const isTradePool = poolType === 2;
 

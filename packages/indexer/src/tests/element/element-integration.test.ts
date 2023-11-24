@@ -1,6 +1,6 @@
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { wait } from "../utils/test";
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
@@ -17,8 +17,8 @@ import { setupNFTs, setupERC1155NFTs } from "../utils/nft";
 import { getOrder } from "../utils/order";
 import axios from "axios";
 
-const operatorProvider = new Wallet(operatorKey, baseProvider);
-const operator2Provider = new Wallet(operator2Key, baseProvider);
+const operatorProvider = new Wallet(operatorKey, getBaseProvider());
+const operator2Provider = new Wallet(operator2Key, getBaseProvider());
 
 jest.setTimeout(1000 * 1000);
 
@@ -82,7 +82,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, seller.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), seller.address);
 
     logger.info("ElementTestnet", `hashNonce=${hashNonce}`);
 
@@ -143,7 +143,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const weth = new Common.Helpers.WNative(baseProvider, chainId);
+    const weth = new Common.Helpers.WNative(getBaseProvider(), chainId);
 
     // Mint weth to buyer
     await weth.deposit(buyer, price);
@@ -155,7 +155,7 @@ describe("ElementTestnet", () => {
 
     await wait(20 * 1000);
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, buyer.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), buyer.address);
 
     logger.info("ElementTestnet", `hashNonce=${hashNonce}`);
 
@@ -216,7 +216,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, seller.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), seller.address);
 
     logger.info("ElementTestnet", `hashNonce=${hashNonce}`);
 
@@ -280,7 +280,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const weth = new Common.Helpers.WNative(baseProvider, chainId);
+    const weth = new Common.Helpers.WNative(getBaseProvider(), chainId);
 
     // Mint weth to buyer
     await weth.deposit(buyer, price);
@@ -290,7 +290,7 @@ describe("ElementTestnet", () => {
 
     await approveTx.wait();
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, buyer.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), buyer.address);
 
     logger.info("ElementTestnet", `hashNonce=${hashNonce}`);
 
@@ -355,7 +355,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, seller.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), seller.address);
 
     logger.info("ElementTestnet", `hashNonce=${hashNonce}`);
 
@@ -427,7 +427,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, seller.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), seller.address);
 
     logger.info("ElementTestnet", `hashNonce=${hashNonce}`);
 
@@ -503,7 +503,7 @@ describe("ElementTestnet", () => {
     const builder = new Element.Builders.SingleToken(chainId);
     const price = parseEther("0.001");
 
-    const hashNonce = await exchange.getHashNonce(baseProvider, seller.address);
+    const hashNonce = await exchange.getHashNonce(getBaseProvider(), seller.address);
 
     // Build Sell order
     const sellOrder = builder.build({

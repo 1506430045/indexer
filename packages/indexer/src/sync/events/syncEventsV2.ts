@@ -1,7 +1,7 @@
 import { Filter } from "@ethersproject/abstract-provider";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { EventKind, getEventData } from "@/events-sync/data";
 import { EventsBatch, EventsByKind, processEventsBatchV2 } from "@/events-sync/handlers";
 import { EnhancedEvent } from "@/events-sync/handlers/utils";
@@ -255,7 +255,7 @@ export const extractEventsBatches = (enhancedEvents: EnhancedEvent[]): EventsBat
 
 const _getLogs = async (eventFilter: Filter) => {
   const timerStart = Date.now();
-  const logs = await baseProvider.getLogs(eventFilter);
+  const logs = await getBaseProvider().getLogs(eventFilter);
   const timerEnd = Date.now();
   return {
     logs,
@@ -459,7 +459,7 @@ export const unsyncEvents = async (block: number, blockHash: string) => {
 
 export const checkForOrphanedBlock = async (block: number) => {
   // Check if block number / hash does not match up (orphaned block)
-  const upstreamBlockHash = (await baseProvider.getBlock(block)).hash.toLowerCase();
+  const upstreamBlockHash = (await getBaseProvider().getBlock(block)).hash.toLowerCase();
 
   // get block from db that has number = block and hash != upstreamBlockHash
   const orphanedBlock = await blocksModel.getBlockWithNumber(block, upstreamBlockHash);

@@ -9,7 +9,7 @@ import Joi from "joi";
 import { inject } from "@/api/index";
 import { idb, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { fromBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { getNetworkSettings } from "@/config/network";
@@ -66,7 +66,7 @@ export const postSimulateOrderV1Options: RouteOptions = {
           JSON.stringify({
             error: "stale-order",
             callTrace: options?.callTrace,
-            block: await baseProvider.getBlock("latest").then((b) => b.number),
+            block: await getBaseProvider().getBlock("latest").then((b) => b.number),
             payload: options?.payload,
             orderId: id,
             status,

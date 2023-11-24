@@ -1,7 +1,7 @@
 import * as Sdk from "@reservoir0x/sdk";
 
 import { redb } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
@@ -97,7 +97,7 @@ export const offChainCheck = async (
     );
 
     // Re-validate the approval on-chain to handle some edge-cases
-    const contract = new Sdk.Common.Helpers.Erc721(baseProvider, order.tokenContract);
+    const contract = new Sdk.Common.Helpers.Erc721(getBaseProvider(), order.tokenContract);
 
     if (!hasBalance) {
       // Fetch token owner on-chain

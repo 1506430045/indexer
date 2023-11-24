@@ -5,7 +5,7 @@ import * as Sdk from "@reservoir0x/sdk";
 import axios from "axios";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
@@ -40,7 +40,7 @@ export const extractByCollectionERC721 = async (
     : await new Contract(
         collection,
         new Interface(["function getExtensions() view returns (address[])"]),
-        baseProvider
+        getBaseProvider()
       ).getExtensions();
 
   const results: CollectionMint[] = [];
@@ -87,7 +87,7 @@ export const extractByCollectionERC721 = async (
               )
             `,
           ]),
-          baseProvider
+          getBaseProvider()
         );
 
         const claim = await cV1.getClaim(collection, instanceId);
@@ -138,7 +138,7 @@ export const extractByCollectionERC721 = async (
             "function MINT_FEE() view returns (uint256)",
             "function MINT_FEE_MERKLE() view returns (uint256)",
           ]),
-          baseProvider
+          getBaseProvider()
         );
 
         const [claim, mintFee, mintFeeMerkle] = await Promise.all([
@@ -336,7 +336,7 @@ export const extractByCollectionERC1155 = async (
     : await new Contract(
         collection,
         new Interface(["function getExtensions() view returns (address[])"]),
-        baseProvider
+        getBaseProvider()
       ).getExtensions();
 
   const results: CollectionMint[] = [];
@@ -366,7 +366,7 @@ export const extractByCollectionERC1155 = async (
         "function MINT_FEE() view returns (uint256)",
         "function MINT_FEE_MERKLE() view returns (uint256)",
       ]),
-      baseProvider
+      getBaseProvider()
     );
 
     try {
@@ -645,7 +645,7 @@ export const getTokenIdForERC1155Mint = async (
         )
       `,
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   return (await c.getClaim(collection, instanceId)).tokenId.toString();

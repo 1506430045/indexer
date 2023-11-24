@@ -7,7 +7,7 @@ import { randomUUID } from "crypto";
 
 import { idb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
 
@@ -68,7 +68,7 @@ if (config.doBackgroundWork) {
             address onlySellTo
           )`,
         ]),
-        baseProvider
+        getBaseProvider()
       );
 
       const values: any[] = [];

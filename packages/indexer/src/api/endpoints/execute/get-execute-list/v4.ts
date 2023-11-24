@@ -8,7 +8,7 @@ import Joi from "joi";
 import _ from "lodash";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider} from "@/common/provider";
 import { regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
@@ -267,8 +267,8 @@ export const getExecuteListV4Options: RouteOptions = {
                   const kind = order.params.kind?.startsWith("erc721") ? "erc721" : "erc1155";
                   approvalTx = (
                     kind === "erc721"
-                      ? new Sdk.Common.Helpers.Erc721(baseProvider, order.params.nft)
-                      : new Sdk.Common.Helpers.Erc1155(baseProvider, order.params.nft)
+                      ? new Sdk.Common.Helpers.Erc721(getBaseProvider(), order.params.nft)
+                      : new Sdk.Common.Helpers.Erc1155(getBaseProvider(), order.params.nft)
                   ).approveTransaction(maker, Sdk.ZeroExV4.Addresses.Exchange[config.chainId]);
 
                   break;
@@ -359,8 +359,8 @@ export const getExecuteListV4Options: RouteOptions = {
                   const kind = order.params.kind?.startsWith("erc721") ? "erc721" : "erc1155";
                   approvalTx = (
                     kind === "erc721"
-                      ? new Sdk.Common.Helpers.Erc721(baseProvider, info.contract)
-                      : new Sdk.Common.Helpers.Erc1155(baseProvider, info.contract)
+                      ? new Sdk.Common.Helpers.Erc721(getBaseProvider(), info.contract)
+                      : new Sdk.Common.Helpers.Erc1155(getBaseProvider(), info.contract)
                   ).approveTransaction(maker, exchange.deriveConduit(order.params.conduitKey));
 
                   break;
@@ -423,7 +423,7 @@ export const getExecuteListV4Options: RouteOptions = {
             }
 
             const exchange = new Sdk.LooksRareV2.Exchange(config.chainId);
-            const granted = await exchange.isGranted(order, baseProvider);
+            const granted = await exchange.isGranted(order, getBaseProvider());
             if (!granted) {
               const grantApprovalsTx = exchange.grantApprovalsTx(order.params.signer, [
                 exchange.contract.address,
@@ -458,8 +458,8 @@ export const getExecuteListV4Options: RouteOptions = {
                   // Generate an approval transaction
                   approvalTx = (
                     contractKind === "erc721"
-                      ? new Sdk.Common.Helpers.Erc721(baseProvider, order.params.collection)
-                      : new Sdk.Common.Helpers.Erc1155(baseProvider, order.params.collection)
+                      ? new Sdk.Common.Helpers.Erc721(getBaseProvider(), order.params.collection)
+                      : new Sdk.Common.Helpers.Erc1155(getBaseProvider(), order.params.collection)
                   ).approveTransaction(
                     maker,
                     Sdk.LooksRareV2.Addresses.TransferManager[config.chainId]
@@ -547,7 +547,7 @@ export const getExecuteListV4Options: RouteOptions = {
 
                   // Generate an approval transaction
                   approvalTx = new Sdk.Common.Helpers.Erc721(
-                    baseProvider,
+                    getBaseProvider(),
                     upstreamOrder.params.nft.token
                   ).approveTransaction(maker, Sdk.X2Y2.Addresses.Erc721Delegate[config.chainId]);
 

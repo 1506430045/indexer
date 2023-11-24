@@ -5,7 +5,7 @@ import * as Sdk from "@reservoir0x/sdk";
 import Joi from "joi";
 
 import { idb, pgp } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { toBuffer } from "@/common/utils";
 import * as allOrderHandlers from "@/orderbook/orders";
 
@@ -23,7 +23,7 @@ async function refreshBalance(owner: string, contract: string) {
   );
 
   try {
-    const currency = new Sdk.Common.Helpers.Erc20(baseProvider, contract);
+    const currency = new Sdk.Common.Helpers.Erc20(getBaseProvider(), contract);
     const currencyBalance = await currency.getBalance(owner);
     if (balanceResult) {
       await idb.oneOrNone(
@@ -80,7 +80,7 @@ async function refreshNFTBalance(owner: string, contract: string, tokenId: strin
   );
 
   try {
-    const nft = new Sdk.Common.Helpers.Erc721(baseProvider, contract);
+    const nft = new Sdk.Common.Helpers.Erc721(getBaseProvider(), contract);
     const tokenOwner = await nft.getOwner(tokenId);
     const isSame = tokenOwner.toLowerCase() === owner.toLowerCase();
 

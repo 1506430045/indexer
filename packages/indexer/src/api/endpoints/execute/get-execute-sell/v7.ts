@@ -14,7 +14,7 @@ import { inject } from "@/api/index";
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { JoiExecuteFee } from "@/common/joi";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, formatPrice, fromBuffer, now, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { getNetworkSettings } from "@/config/network";
@@ -1013,7 +1013,7 @@ export const getExecuteSellV7Options: RouteOptions = {
               txData: {
                 maxFeePerGas,
                 maxPriorityFeePerGas,
-                ...new Sdk.Common.Helpers.Erc721(baseProvider, contract).approveTransaction(
+                ...new Sdk.Common.Helpers.Erc721(getBaseProvider(), contract).approveTransaction(
                   payload.taker,
                   operator
                 ),
@@ -1149,7 +1149,7 @@ export const getExecuteSellV7Options: RouteOptions = {
         }
       }
 
-      const router = new Sdk.RouterV6.Router(config.chainId, baseProvider, {
+      const router = new Sdk.RouterV6.Router(config.chainId, getBaseProvider(), {
         x2y2ApiKey: payload.x2y2ApiKey ?? config.x2y2ApiKey,
         openseaApiKey: payload.openseaApiKey,
         cbApiKey: config.cbApiKey,
@@ -1293,7 +1293,7 @@ export const getExecuteSellV7Options: RouteOptions = {
         if (txData && item.source === "blur.io") {
           // Blur bids don't have the correct order id so we have to override it
           const orders = await new Sdk.Blur.Exchange(config.chainId).getMatchedOrdersFromCalldata(
-            baseProvider,
+            getBaseProvider(),
             txData!.data
           );
 

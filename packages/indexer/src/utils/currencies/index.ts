@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { toBuffer } from "@/common/utils";
 import { getNetworkSettings } from "@/config/network";
 import { currenciesFetchJob } from "@/jobs/currencies/currencies-fetch-job";
@@ -126,7 +126,7 @@ export const tryGetCurrencyDetails = async (currencyAddress: string) => {
     "function decimals() view returns (uint8)",
   ]);
 
-  const contract = new Contract(currencyAddress, iface, baseProvider);
+  const contract = new Contract(currencyAddress, iface, getBaseProvider());
   const name = await contract.name();
   const symbol = await contract.symbol();
   const decimals = await contract.decimals();

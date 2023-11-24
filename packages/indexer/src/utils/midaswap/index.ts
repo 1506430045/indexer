@@ -2,7 +2,7 @@ import { Contract } from "@ethersproject/contracts";
 import { BigNumber } from "@ethersproject/bignumber";
 import * as Sdk from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider} from "@/common/provider";
 import { config } from "@/config/index";
 import { getMidaswapPool, saveMidaswapPool } from "@/models/midaswap-pools";
 
@@ -12,7 +12,7 @@ export const getPoolDetails = async (address: string) =>
   getMidaswapPool(address).catch(async () => {
     if (Sdk.Midaswap.Addresses.PairFactory[config.chainId]) {
       try {
-        const poolContract = new Contract(address, PairAbi, baseProvider);
+        const poolContract = new Contract(address, PairAbi, getBaseProvider());
         const nft = (await poolContract.getTokenX()).toLowerCase();
         const token = (await poolContract.getTokenY()).toLowerCase();
         const [freeRate, , royaltyRate] = (await poolContract.feeParameters()) as BigNumber[];

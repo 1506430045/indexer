@@ -5,7 +5,7 @@ import { searchForCall } from "@georgeroman/evm-tx-simulator";
 
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { EventSubKind, getEventData } from "@/events-sync/data";
 import { EnhancedEvent, OnChainData } from "@/events-sync/handlers/utils";
 import * as utils from "@/events-sync/utils";
@@ -422,7 +422,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
         for (let index = 0; index < allOrderParameters.length; index++) {
           const parameters = allOrderParameters[index];
           try {
-            const counter = await exchange.getCounter(baseProvider, parameters.offerer);
+            const counter = await exchange.getCounter(getBaseProvider(), parameters.offerer);
             const order = new Order(config.chainId, {
               ...parameters,
               counter,

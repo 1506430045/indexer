@@ -135,7 +135,7 @@ export const config = {
   rabbitDisableQueuesConsuming: Boolean(Number(process.env.RABBIT_DISABLE_QUEUES_CONSUMING)),
   forceEnableRabbitJobsConsumer: Boolean(Number(process.env.FORCE_ENABLE_RABBIT_JOBS_CONSUMER)),
   networkBaseUrlList: [
-    // { url: "https://opbnb-mainnet.nodereal.io/v1/6b12d198f6b343ea9fdd53db77c66d06", weight: 1500 },
+    { url: "https://opbnb-mainnet.nodereal.io/v1/6b12d198f6b343ea9fdd53db77c66d06", weight: 1500 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/cf8d5aa243bc4eb7b63c2dca6673d281", weight: 300 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/34f5274ae22f44cd88739a067d4d9a26", weight: 300 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/0601375725ad4c9f8273d193de68cd5f", weight: 300 },

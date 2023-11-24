@@ -1,6 +1,6 @@
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { wait } from "../utils/test";
 import { keccak256 } from "@ethersproject/solidity";
 import { Interface } from "@ethersproject/abi";
@@ -20,8 +20,8 @@ import {
 } from "./__fixtures__/test-accounts";
 // import { toBuffer } from "@/common/utils";
 
-const operatorProvider = new Wallet(operatorKey, baseProvider);
-const operator2Provider = new Wallet(operator2Key, baseProvider);
+const operatorProvider = new Wallet(operatorKey, getBaseProvider());
+const operator2Provider = new Wallet(operator2Key, getBaseProvider());
 
 jest.setTimeout(600 * 1000);
 

@@ -1,13 +1,13 @@
 import * as Sdk from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
 import { OrderInfo } from "@/orderbook/orders/manifold";
 
 export const offChainCheck = async (order: OrderInfo["orderParams"]) => {
   const exchangeContract = new Sdk.Manifold.Exchange(config.chainId);
-  const onChainListing = await exchangeContract.getListing(baseProvider, order.id);
+  const onChainListing = await exchangeContract.getListing(getBaseProvider(), order.id);
 
   if (bn(onChainListing.id).toString() != order.id) {
     throw Error("invalid");

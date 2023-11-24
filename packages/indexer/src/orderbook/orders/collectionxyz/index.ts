@@ -12,7 +12,7 @@ import pLimit from "p-limit";
 
 import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, now, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import {
@@ -311,7 +311,7 @@ export const getPoolDetails = async (address: string) =>
       ]);
 
       try {
-        const pool = new Contract(address, poolIface, baseProvider);
+        const pool = new Contract(address, poolIface, getBaseProvider());
 
         const nft = (await pool.nft()).toLowerCase();
         const bondingCurve = (await pool.bondingCurve()).toLowerCase();
@@ -324,7 +324,7 @@ export const getPoolDetails = async (address: string) =>
           new Interface([
             "function isPoolVariant(address potentialPool, uint8 variant) public view returns (bool)",
           ]),
-          baseProvider
+          getBaseProvider()
         );
         if (await factory.isPoolVariant(address, poolVariant)) {
           return saveCollectionPool({
@@ -391,7 +391,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
           `function tokenIDFilterRoot() view returns (bytes32)`,
           `function externalFilter() public view returns (address)`,
         ]),
-        baseProvider
+        getBaseProvider()
       );
 
       const isERC20 = pool.token !== Sdk.Common.Addresses.Native[config.chainId];

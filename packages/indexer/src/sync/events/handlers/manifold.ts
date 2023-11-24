@@ -14,7 +14,7 @@ import { manifold } from "@/orderbook/orders";
 import { getUSDAndNativePrices } from "@/utils/prices";
 
 import ExchangeAbi from "@reservoir0x/sdk/dist/manifold/abis/Exchange.json";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 
 export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChainData) => {
   for (const { subKind, baseEventParams, log } of events) {
@@ -60,7 +60,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
           const marketplace = new Contract(
             Sdk.Manifold.Addresses.Exchange[config.chainId],
             ExchangeAbi,
-            baseProvider
+            getBaseProvider()
           );
 
           const listing = await marketplace.getListing(listingId);
