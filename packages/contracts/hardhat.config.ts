@@ -31,7 +31,7 @@ const getNetworkConfig = (chainId?: number) => {
         url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
         break;
       case 204:
-        url = "https://opbnb-mainnet-rpc.bnbchain.org";
+        url = "https://opbnb-mainnet.nodereal.io/v1/6b12d198f6b343ea9fdd53db77c66d06";
         break;
       case 8453:
         url = "https://developer-access-mainnet.base.org";

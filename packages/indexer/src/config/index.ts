@@ -144,7 +144,21 @@ export const config = {
   ]
 };
 
+let callCount = 0;
+
+// 每秒调用一次的方法
+function countGetNetworkBaseUrl() {
+  var currentTime = new Date();
+  var formattedTime = currentTime.toLocaleTimeString();
+  console.log(`countGetNetworkBaseUrl Total calls: ${callCount} ${formattedTime}`);
+  callCount = 0; // 重置调用次数
+}
+
+// 设置每秒调用一次 myMethod 方法
+setInterval(countGetNetworkBaseUrl, 1000);
+
 export function getNetworkBaseUrl() {
+  callCount++
   const totalWeight = config.networkBaseUrlList.reduce((sum, entry) => sum + entry.weight, 0);
 
   let randomWeight = Math.random() * totalWeight;
@@ -153,7 +167,9 @@ export function getNetworkBaseUrl() {
     if (randomWeight <= 0) {
       // 返回被选中的URL
       // var url = entry.url
-      // console.log("xxxxx-url: ", url)
+      // var currentTime = new Date();
+      // var formattedTime = currentTime.toLocaleTimeString();
+      // console.log(`get-network-url: ${url} ${formattedTime}`)
       return entry.url;
     }
   }
