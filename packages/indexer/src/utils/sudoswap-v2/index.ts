@@ -3,7 +3,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import * as Sdk from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 import { getSudoswapV2Pool, saveSudoswapV2Pool } from "@/models/sudoswap-v2-pools";
 
@@ -22,7 +22,7 @@ export const getPoolDetails = async (address: string) =>
       ]);
 
       try {
-        const pool = new Contract(address, iface, baseProvider);
+        const pool = new Contract(address, iface, getBaseProvider());
         const nft = (await pool.nft()).toLowerCase();
         const bondingCurve = (await pool.bondingCurve()).toLowerCase();
         const poolKind = await pool.poolType();
@@ -46,7 +46,7 @@ export const getPoolDetails = async (address: string) =>
         const factory = new Contract(
           Sdk.SudoswapV2.Addresses.PairFactory[config.chainId],
           iface,
-          baseProvider
+          getBaseProvider()
         );
         if (await factory.isValidPair(address)) {
           return saveSudoswapV2Pool({

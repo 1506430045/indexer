@@ -27,6 +27,9 @@ export const getNetworkName = () => {
     case 137:
       return "polygon";
 
+    case 204:
+      return "opbnb";
+
     case 324:
       return "zksync";
 
@@ -682,6 +685,51 @@ export const getNetworkSettings = (): NetworkSettings => {
                   'MATIC',
                   18,
                   '{"coingeckoCurrencyId": "matic-network"}'
+                ) ON CONFLICT DO NOTHING
+              `
+            ),
+          ]);
+        },
+      };
+    }
+    // opbnb
+    case 204: {
+      return {
+        ...defaultNetworkSettings,
+        isTestnet: false,
+        enableWebSocket: true,
+        realtimeSyncMaxBlockLag: 32,
+        realtimeSyncFrequencySeconds: 5,
+        lastBlockLatency: 5,
+        headBlockDelay: 10,
+        coingecko: {
+          networkId: "binance-smart-chain",
+        },
+        elasticsearch: {
+          indexes: {
+            activities: {
+              ...defaultNetworkSettings.elasticsearch?.indexes?.activities,
+              numberOfShards: 10,
+            },
+          },
+        },
+        onStartup: async () => {
+          // Insert the native currency
+          await Promise.all([
+            idb.none(
+                `
+                INSERT INTO currencies (
+                  contract,
+                  name,
+                  symbol,
+                  decimals,
+                  metadata
+                ) VALUES (
+                  '\\x0000000000000000000000000000000000000000',
+                  'Binance Coin',
+                  'BNB',
+                  18,
+                  '{"coingeckoCurrencyId": "binancecoin", "image": "https://assets.coingecko.com/coins/images/12591/large/binance-coin-logo.png"}'
                 ) ON CONFLICT DO NOTHING
               `
             ),

@@ -1,6 +1,6 @@
 import { Common } from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
 import * as ftApprovalsModel from "@/models/ft-approvals";
 
@@ -30,7 +30,7 @@ export const fetchAndUpdateFtApproval = async (
       return ftApproval;
     }
   } else {
-    const erc20 = new Common.Helpers.Erc20(baseProvider, token);
+    const erc20 = new Common.Helpers.Erc20(getBaseProvider(), token);
     const allowance = await erc20.getAllowance(owner, spender).then((b) => b.toString());
     return ftApprovalsModel.saveFtApproval({
       token,

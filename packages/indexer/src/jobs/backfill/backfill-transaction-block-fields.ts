@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 
 import { idb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
 import { fromBuffer, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -53,7 +53,7 @@ if (config.doBackgroundWork) {
       });
       for (const { hash, block_timestamp } of results) {
         if (!block_timestamp) {
-          const tx = await baseProvider.getTransaction(fromBuffer(hash));
+          const tx = await getBaseProvider().getTransaction(fromBuffer(hash));
           if (tx) {
             values.push({
               hash,

@@ -30,6 +30,9 @@ const getNetworkConfig = (chainId?: number) => {
       case 137:
         url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
         break;
+      case 204:
+        url = "https://opbnb-mainnet.nodereal.io/v1/6b12d198f6b343ea9fdd53db77c66d06";
+        break;
       case 8453:
         url = "https://developer-access-mainnet.base.org";
         break;
@@ -129,6 +132,7 @@ const config: HardhatUserConfig = {
     avalanche: getNetworkConfig(43114),
     linea: getNetworkConfig(59144),
     zora: getNetworkConfig(7777777),
+    opbnb: getNetworkConfig(204),
     // Testnets
     goerli: getNetworkConfig(5),
     zoraTestnet: getNetworkConfig(999),
@@ -172,6 +176,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api-goerli.basescan.org/api",
           browserURL: "https://goerli.basescan.org",
+        },
+      },
+      {
+        network: "opbnb",
+        chainId: 204,
+        urls: {
+          apiURL: "https://open-platform.nodereal.io/cf8d5aa243bc4eb7b63c2dca6673d281/op-bnb-mainnet/contract/",
+          browserURL: "https://opbnbscan.com/",
         },
       },
     ],

@@ -5,7 +5,7 @@ import pLimit from "p-limit";
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { getNetworkSettings } from "@/config/network";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { EventKind, getEventData } from "@/events-sync/data";
 import { EventsBatch, EventsByKind } from "@/events-sync/handlers";
 import { EnhancedEvent } from "@/events-sync/handlers/utils";
@@ -366,7 +366,7 @@ export const syncEvents = async (
 
   const enhancedEvents: EnhancedEvent[] = [];
   const startTimeFetchingLogs = now();
-  await baseProvider.getLogs(eventFilter).then(async (logs) => {
+  await getBaseProvider().getLogs(eventFilter).then(async (logs) => {
     const endTimeFetchingLogs = now();
     const startTimeProcessingEvents = now();
     const availableEventData = getEventData();

@@ -3,7 +3,7 @@ import { Contract } from "@ethersproject/contracts";
 import * as Sdk from "@reservoir0x/sdk";
 
 import { idb, redb } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { redis } from "@/common/redis";
 import { toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -62,7 +62,7 @@ export const isBlockedByCustomLogic = async (contract: string, operators: string
       "function registry() view returns (address)",
       "function getWhitelistedOperators() view returns (address[])",
     ]);
-    const nft = new Contract(contract, iface, baseProvider);
+    const nft = new Contract(contract, iface, getBaseProvider());
     let result = false;
 
     // `registry()`
@@ -72,7 +72,7 @@ export const isBlockedByCustomLogic = async (contract: string, operators: string
         new Interface([
           "function isAllowedOperator(address operator) external view returns (bool)",
         ]),
-        baseProvider
+        getBaseProvider()
       );
       const allowed = await Promise.all(operators.map((c) => registry.isAllowedOperator(c)));
       result = allowed.some((c) => !c);
@@ -103,7 +103,7 @@ const getMarketplaceBlacklist = async (contract: string): Promise<string[]> => {
     const opensea = new Contract(
       Sdk.SeaportBase.Addresses.OperatorFilterRegistry[config.chainId],
       iface,
-      baseProvider
+      getBaseProvider()
     );
     openseaOperators = await opensea.filteredOperators(contract);
   }
@@ -113,7 +113,7 @@ const getMarketplaceBlacklist = async (contract: string): Promise<string[]> => {
     const blur = new Contract(
       Sdk.Blur.Addresses.OperatorFilterRegistry[config.chainId],
       iface,
-      baseProvider
+      getBaseProvider()
     );
     blurOperators = await blur.filteredOperators(contract);
   }

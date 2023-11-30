@@ -1,6 +1,6 @@
 import * as Sdk from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import * as onChainData from "@/utils/on-chain-data";
@@ -121,8 +121,8 @@ export const offChainCheck = async (
         // Re-validate the approval on-chain to handle some edge-cases
         const contract =
           info.tokenKind === "erc721"
-            ? new Sdk.Common.Helpers.Erc721(baseProvider, info.contract)
-            : new Sdk.Common.Helpers.Erc1155(baseProvider, info.contract);
+            ? new Sdk.Common.Helpers.Erc721(getBaseProvider(), info.contract)
+            : new Sdk.Common.Helpers.Erc1155(getBaseProvider(), info.contract);
 
         const isApprovedForAll = await contract.isApproved(order.params.offerer, conduit);
         if (!isApprovedForAll) {

@@ -5,7 +5,7 @@ import { getTxTraces } from "@georgeroman/evm-tx-simulator";
 import { getSourceV1 } from "@reservoir0x/sdk/dist/utils";
 import _ from "lodash";
 
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { bn } from "@/common/utils";
 import { extractNestedTx } from "@/events-sync/handlers/attribution";
 import { getBlocks, saveBlock } from "@/models/blocks";
@@ -30,7 +30,7 @@ export const fetchBlock = async (blockNumber: number, force = false) => {
     }
   }
 
-  const block = await baseProvider.getBlockWithTransactions(blockNumber);
+  const block = await getBaseProvider().getBlockWithTransactions(blockNumber);
 
   // Create transactions array to store
   const transactions = block.transactions.map((tx) => {
@@ -76,9 +76,9 @@ export const fetchTransaction = async (txHash: string) =>
     // a good assumption so we should force re-fetch the new block
     // together with its transactions when a reorg happens.
 
-    let tx = await baseProvider.getTransaction(txHash);
+    let tx = await getBaseProvider().getTransaction(txHash);
     if (!tx) {
-      tx = await baseProvider.getTransaction(txHash);
+      tx = await getBaseProvider().getTransaction(txHash);
     }
 
     // Also fetch all transactions within the block
@@ -119,7 +119,7 @@ export const fetchTransactionTraces = async (txHashes: string[], provider?: Json
           const missingTraces = Object.entries(
             await getTxTraces(
               batch.map((hash) => ({ hash })),
-              provider ?? baseProvider
+              provider ?? getBaseProvider()
             )
           ).map(([hash, calls]) => ({ hash, calls }));
 
@@ -151,7 +151,7 @@ export const fetchTransactionTrace = async (txHash: string) => {
 
 export const fetchTransactionLogs = async (txHash: string) =>
   getTransactionLogs(txHash).catch(async () => {
-    const receipt = await baseProvider.getTransactionReceipt(txHash);
+    const receipt = await getBaseProvider().getTransactionReceipt(txHash);
 
     return saveTransactionLogs({
       hash: txHash,

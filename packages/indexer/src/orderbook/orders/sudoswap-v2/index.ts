@@ -9,7 +9,7 @@ import pLimit from "p-limit";
 
 import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { Sources } from "@/models/sources";
@@ -116,7 +116,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
             )
           `,
         ]),
-        baseProvider
+        getBaseProvider()
       );
 
       // Handle: fees
@@ -154,7 +154,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
             throw new Error("Property checked pools are not yet supported on the buy-side");
           }
 
-          const tokenBalance = await baseProvider.getBalance(pool.address);
+          const tokenBalance = await getBaseProvider().getBalance(pool.address);
 
           let tmpPriceList: (BigNumber | undefined)[] = Array.from(
             { length: POOL_ORDERS_MAX_PRICE_POINTS_COUNT },

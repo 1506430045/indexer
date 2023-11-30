@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 
 import { idb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
 import { bn, fromBuffer, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -67,7 +67,7 @@ if (config.doBackgroundWork) {
       );
       for (const { tx_hash, log_index, batch_index, timestamp, order_side } of result) {
         try {
-          const txReceipt = await baseProvider.getTransactionReceipt(fromBuffer(tx_hash));
+          const txReceipt = await getBaseProvider().getTransactionReceipt(fromBuffer(tx_hash));
           const log = txReceipt.logs.find((l) => l.logIndex === log_index)!;
 
           const parsedLog = (order_side === "sell" ? takerBid : takerAsk).abi.parseLog(log);

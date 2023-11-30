@@ -8,7 +8,7 @@ import * as Sdk from "@reservoir0x/sdk";
 import { MerkleTree } from "merkletreejs";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 import { Transaction } from "@/models/transactions";
 import {
@@ -44,7 +44,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
         )
       `,
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   try {
@@ -290,7 +290,7 @@ const getLatestMerkleRootData = async (collection: string, maxRetry = 5, blockIn
     )`,
   ]);
 
-  const blockNumber = await baseProvider.getBlockNumber();
+  const blockNumber = await getBaseProvider().getBlockNumber();
   const topicsFilter = [
     [
       iface.getEventTopic("CreateFixedPriceSale"),
@@ -302,7 +302,7 @@ const getLatestMerkleRootData = async (collection: string, maxRetry = 5, blockIn
   let merkleRoot: string | undefined;
   let merkleTreeUri: string | undefined;
   for (let i = 0; i < maxRetry; i++) {
-    const relevantLogs = await baseProvider.getLogs({
+    const relevantLogs = await getBaseProvider().getLogs({
       fromBlock: blockNumber - blockInterval * (i + 1),
       toBlock: blockNumber - blockInterval * i,
       topics: topicsFilter,

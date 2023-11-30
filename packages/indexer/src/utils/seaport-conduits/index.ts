@@ -4,7 +4,7 @@ import { Contract } from "@ethersproject/contracts";
 import * as Sdk from "@reservoir0x/sdk";
 
 import { idb, pgp } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 
@@ -35,7 +35,7 @@ export const refresh = async (conduit: string) => {
       "function getKey(address conduit) view returns (bytes32 conduitKey)",
       "function getChannels(address conduit) view returns (address[] channels)",
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   const conduitKey = await conduitController

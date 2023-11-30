@@ -6,7 +6,7 @@ import pLimit from "p-limit";
 
 import { idb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, now, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { getNetworkName, getNetworkSettings } from "@/config/network";
@@ -167,7 +167,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
 
       // Check: order has a valid signature
       try {
-        await order.checkSignature(baseProvider);
+        await order.checkSignature(getBaseProvider());
       } catch {
         return results.push({
           id,

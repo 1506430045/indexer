@@ -1,6 +1,6 @@
 import * as Sdk from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
@@ -107,8 +107,8 @@ export const offChainCheck = async (
         // Re-validate the approval on-chain to handle some edge-cases
         const contract =
           kind === "erc721"
-            ? new Sdk.Common.Helpers.Erc721(baseProvider, order.params.nft)
-            : new Sdk.Common.Helpers.Erc1155(baseProvider, order.params.nft);
+            ? new Sdk.Common.Helpers.Erc721(getBaseProvider(), order.params.nft)
+            : new Sdk.Common.Helpers.Erc1155(getBaseProvider(), order.params.nft);
         if (!(await contract.isApproved(order.params.maker, operator))) {
           hasApproval = false;
         }

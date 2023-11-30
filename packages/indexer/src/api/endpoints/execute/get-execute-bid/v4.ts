@@ -8,7 +8,7 @@ import Joi from "joi";
 import _ from "lodash";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { bn, regex } from "@/common/utils";
 import { config } from "@/config/index";
 import { ExecutionsBuffer } from "@/utils/executions";
@@ -287,15 +287,15 @@ export const getExecuteBidV4Options: RouteOptions = {
 
         // Check the maker's balance
         let wrapEthTx: TxData | undefined;
-        const currency = new Sdk.Common.Helpers.Erc20(baseProvider, params.currency);
+        const currency = new Sdk.Common.Helpers.Erc20(getBaseProvider(), params.currency);
         const currencyBalance = await currency.getBalance(maker);
         if (bn(currencyBalance).lt(params.weiPrice)) {
           if (params.currency === Sdk.Common.Addresses.WNative[config.chainId]) {
-            const ethBalance = await baseProvider.getBalance(maker);
+            const ethBalance = await getBaseProvider().getBalance(maker);
             if (bn(currencyBalance).add(ethBalance).lt(params.weiPrice)) {
               throw Boom.badData("Maker does not have sufficient balance");
             } else {
-              const weth = new Sdk.Common.Helpers.WNative(baseProvider, config.chainId);
+              const weth = new Sdk.Common.Helpers.WNative(getBaseProvider(), config.chainId);
               wrapEthTx = weth.depositTransaction(maker, bn(params.weiPrice).sub(currencyBalance));
             }
           } else {
@@ -710,7 +710,7 @@ export const getExecuteBidV4Options: RouteOptions = {
         }
 
         if (amount.gt(0)) {
-          const weth = new Sdk.Common.Helpers.WNative(baseProvider, config.chainId);
+          const weth = new Sdk.Common.Helpers.WNative(getBaseProvider(), config.chainId);
           const wethWrapTx = weth.depositTransaction(maker, amount);
 
           steps[1].items = [

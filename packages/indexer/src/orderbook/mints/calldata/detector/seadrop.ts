@@ -3,7 +3,7 @@ import { Contract } from "@ethersproject/contracts";
 import * as Sdk from "@reservoir0x/sdk";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 import { Transaction } from "@/models/transactions";
 import {
@@ -41,7 +41,7 @@ export const extractByCollectionERC721 = async (collection: string): Promise<Col
       `,
       "function getAllowedFeeRecipients(address nftContract) view returns (address[])",
     ]),
-    baseProvider
+    getBaseProvider()
   );
 
   const results: CollectionMint[] = [];

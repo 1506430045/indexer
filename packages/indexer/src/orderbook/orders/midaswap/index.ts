@@ -7,7 +7,7 @@ import _ from "lodash";
 
 import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import {
@@ -90,7 +90,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
         orderId: sellOrderId,
       } = orderParams;
 
-      const pairContract = new Contract(pool.address, PairAbi, baseProvider);
+      const pairContract = new Contract(pool.address, PairAbi, getBaseProvider());
       const [, floorPriceBin] = await pairContract.getIDs();
 
       if (!lpTokenId) {

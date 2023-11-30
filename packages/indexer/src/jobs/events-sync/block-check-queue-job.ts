@@ -3,7 +3,7 @@ import { unsyncEvents } from "@/events-sync/index";
 import { logger } from "@/common/logger";
 import { eventsSyncBackfillJob } from "@/jobs/events-sync/events-sync-backfill-job";
 import * as blocksModel from "@/models/blocks";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { idb } from "@/common/db";
 import { fromBuffer } from "@/common/utils";
 import { HashZero } from "@ethersproject/constants";
@@ -45,7 +45,7 @@ export class BlockCheckJob extends AbstractRabbitMqJobHandler {
       };
 
       // Fetch the latest upstream hash for the specified block
-      const upstreamBlockHash = (await baseProvider.getBlock(block)).hash.toLowerCase();
+      const upstreamBlockHash = (await getBaseProvider().getBlock(block)).hash.toLowerCase();
 
       // When `blockHash` is empty, force recheck all event tables
       if (!blockHash) {

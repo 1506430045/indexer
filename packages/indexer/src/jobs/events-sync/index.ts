@@ -1,7 +1,7 @@
 import cron from "node-cron";
 
 import { logger } from "@/common/logger";
-import { baseProvider, safeWebSocketSubscription } from "@/common/provider";
+import { getBaseProvider, safeWebSocketSubscription} from "@/common/provider";
 import { redis, redlock } from "@/common/redis";
 import { config } from "@/config/index";
 import { getNetworkSettings } from "@/config/network";
@@ -35,7 +35,7 @@ if (config.doBackgroundWork && config.catchup) {
         )
         .then(async () => {
           try {
-            const block = await baseProvider.getBlockNumber();
+            const block = await getBaseProvider().getBlockNumber();
             if (config.master && !networkSettings.enableWebSocket) {
               logger.info("events-sync-catchup", `Catching up events for block ${block}`);
               await eventsSyncRealtimeJob.addToQueue({ block });

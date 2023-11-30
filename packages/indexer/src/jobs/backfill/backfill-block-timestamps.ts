@@ -6,7 +6,7 @@ import { randomUUID } from "crypto";
 import { idb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 
 const QUEUE_NAME = "backfill-block-timestamps-queue";
@@ -52,7 +52,7 @@ if (config.doBackgroundWork) {
 
       await Promise.all(
         results.map(async (r) => {
-          const block = await baseProvider.getBlock(r.number);
+          const block = await getBaseProvider().getBlock(r.number);
           values.push({ number, timestamp: block.timestamp });
         })
       );

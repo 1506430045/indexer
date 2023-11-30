@@ -3,7 +3,7 @@ import * as Sdk from "@reservoir0x/sdk";
 import { getRandomBytes } from "@reservoir0x/sdk/dist/utils";
 
 import { redb } from "@/common/db";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, now } from "@/common/utils";
 import { config } from "@/config/index";
 import {
@@ -61,7 +61,7 @@ export const getBuildInfo = async (
     startTime: options.listingTime || now() - 1 * 60,
     endTime: options.expirationTime || now() + 6 * 30 * 24 * 3600,
     salt: padSourceToSalt(options.salt ?? getRandomBytes(16).toString(), options.source),
-    counter: (await exchange.getCounter(baseProvider, options.maker)).toString(),
+    counter: (await exchange.getCounter(getBaseProvider(), options.maker)).toString(),
     orderType: options.orderType,
   };
 

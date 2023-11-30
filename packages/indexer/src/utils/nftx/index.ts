@@ -3,7 +3,7 @@ import { Log } from "@ethersproject/abstract-provider";
 import { Contract } from "@ethersproject/contracts";
 import * as Sdk from "@reservoir0x/sdk";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 import * as nftx from "@/events-sync/data/nftx";
 import {
@@ -45,7 +45,7 @@ export const getNftPoolDetails = async (address: string, skipOnChainCheck = fals
       ]);
 
       try {
-        const pool = new Contract(address, iface, baseProvider);
+        const pool = new Contract(address, iface, getBaseProvider());
 
         const nft = (await pool.assetAddress()).toLowerCase();
         const vaultId = await pool.vaultId();
@@ -53,7 +53,7 @@ export const getNftPoolDetails = async (address: string, skipOnChainCheck = fals
         const factory = new Contract(
           Sdk.Nftx.Addresses.VaultFactory[config.chainId],
           iface,
-          baseProvider
+          getBaseProvider()
         );
         if ((await factory.vault(vaultId)).toLowerCase() === address) {
           return saveNftxNftPool({
@@ -81,7 +81,7 @@ export const getFtPoolDetails = async (
       ]);
 
       try {
-        const pool = new Contract(address, iface, baseProvider);
+        const pool = new Contract(address, iface, getBaseProvider());
 
         const token0 = (await pool.token0()).toLowerCase();
         const token1 = (await pool.token1()).toLowerCase();

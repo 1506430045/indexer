@@ -14,7 +14,7 @@ import { inject } from "@/api/index";
 import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { JoiExecuteFee } from "@/common/joi";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, formatPrice, fromBuffer, now, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { ApiKeyManager } from "@/models/api-keys";
@@ -1433,7 +1433,7 @@ export const getExecuteBuyV7Options: RouteOptions = {
         });
       }
 
-      const router = new Sdk.RouterV6.Router(config.chainId, baseProvider, {
+      const router = new Sdk.RouterV6.Router(config.chainId, getBaseProvider(), {
         x2y2ApiKey: payload.x2y2ApiKey ?? config.x2y2ApiKey,
         openseaApiKey: payload.openseaApiKey,
         cbApiKey: config.cbApiKey,
@@ -1578,7 +1578,7 @@ export const getExecuteBuyV7Options: RouteOptions = {
         }
 
         // Handle permits
-        const permitHandler = new PermitHandler(config.chainId, baseProvider);
+        const permitHandler = new PermitHandler(config.chainId, getBaseProvider());
         for (const permit of permits) {
           const id = getPermitId(request.payload as object, {
             token: permit.data.token,
@@ -1667,7 +1667,7 @@ export const getExecuteBuyV7Options: RouteOptions = {
           // Get the price in the buy-in currency via the transaction value
           const totalBuyInCurrencyPrice = bn(txData.value ?? 0);
 
-          const balance = await baseProvider.getBalance(txSender);
+          const balance = await getBaseProvider().getBalance(txSender);
           if (!payload.skipBalanceCheck && bn(balance).lt(totalBuyInCurrencyPrice)) {
             throw getExecuteError("Balance too low to proceed with transaction");
           }
@@ -1677,7 +1677,7 @@ export const getExecuteBuyV7Options: RouteOptions = {
             .map((a) => bn(a.amount))
             .reduce((a, b) => a.add(b), bn(0));
 
-          const erc20 = new Sdk.Common.Helpers.Erc20(baseProvider, buyInCurrency);
+          const erc20 = new Sdk.Common.Helpers.Erc20(getBaseProvider(), buyInCurrency);
           const balance = await erc20.getBalance(txSender);
           if (!payload.skipBalanceCheck && bn(balance).lt(totalBuyInCurrencyPrice)) {
             throw getExecuteError("Balance too low to proceed with transaction");

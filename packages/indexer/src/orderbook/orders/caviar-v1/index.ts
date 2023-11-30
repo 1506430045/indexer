@@ -9,7 +9,7 @@ import _ from "lodash";
 
 import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { Sources } from "@/models/sources";
@@ -84,7 +84,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
           "function baseTokenReserves() view returns (uint256)",
           "function fractionalTokenReserves() view returns (uint256)",
         ]),
-        baseProvider
+        getBaseProvider()
       );
 
       // Handle bids

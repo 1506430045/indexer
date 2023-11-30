@@ -4,7 +4,7 @@ import * as ApprovalProxy from "@reservoir0x/sdk/dist/router/v6/approval-proxy";
 import Joi from "joi";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
@@ -108,7 +108,7 @@ export const postExecuteTransferV1Options: RouteOptions = {
         },
       ];
 
-      const router = new Sdk.RouterV6.Router(config.chainId, baseProvider);
+      const router = new Sdk.RouterV6.Router(config.chainId, getBaseProvider());
       const { txs } = await router.transfersTx(transferItem, payload.from);
 
       const approvals = txs.map((tx) => tx.approvals).flat();

@@ -4,7 +4,7 @@ import { PermitHandler, PermitWithTransfers } from "@reservoir0x/sdk/dist/router
 import Joi from "joi";
 
 import { logger } from "@/common/logger";
-import { baseProvider } from "@/common/provider";
+import {getBaseProvider} from "@/common/provider";
 import { config } from "@/config/index";
 import { getPermit, savePermit } from "@/utils/permits";
 
@@ -51,7 +51,7 @@ export const postPermitSignatureV1Options: RouteOptions = {
         permitData.signature = query.signature;
 
         // Verify the permit signature
-        new PermitHandler(config.chainId, baseProvider).attachAndCheckSignature(
+        new PermitHandler(config.chainId, getBaseProvider()).attachAndCheckSignature(
           permitData,
           query.signature
         );

@@ -4,7 +4,7 @@ import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import axios from "axios";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { config } from "@/config/index";
 import { getNetworkName } from "@/config/network";
 import { logger } from "@/common/logger";
@@ -88,7 +88,7 @@ export class MetadataApi {
       const name = await new Contract(
         contract,
         new Interface(["function name() view returns (string)"]),
-        baseProvider
+        getBaseProvider()
       )
         .name()
         .catch(() => "");

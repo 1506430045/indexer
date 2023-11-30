@@ -3,7 +3,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { searchForCall } from "@georgeroman/evm-tx-simulator";
 
-import { baseProvider } from "@/common/provider";
+import { getBaseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import { getEventData } from "@/events-sync/data";
 import { EnhancedEvent, OnChainData } from "@/events-sync/handlers/utils";
@@ -286,7 +286,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
       case "caviar-v1-create": {
         const parsedLog = eventData.abi.parseLog(log);
 
-        const factory = new Contract(baseEventParams.address, iface, baseProvider);
+        const factory = new Contract(baseEventParams.address, iface, getBaseProvider());
         const pool = await factory
           .pairs(
             parsedLog.args["nft"].toLowerCase(),
