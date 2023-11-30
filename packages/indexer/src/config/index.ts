@@ -141,6 +141,14 @@ export const config = {
     { url: "https://opbnb-mainnet.nodereal.io/v1/0601375725ad4c9f8273d193de68cd5f", weight: 300 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/914171a9bcd741fda010cb7cc5a7113d", weight: 300 },
     { url: "https://opbnb-mainnet.nodereal.io/v1/23823ed4d16e4a8984a1ae11fb21135a", weight: 300 },
+  ],
+  wsNetworkBaseUrlList: [
+    { url: "wss://opbnb-mainnet.nodereal.io/ws/v1/6b12d198f6b343ea9fdd53db77c66d06", weight: 1500 },
+    { url: "wss://opbnb-mainnet.nodereal.io/ws/v1/cf8d5aa243bc4eb7b63c2dca6673d281", weight: 300 },
+    { url: "wss://opbnb-mainnet.nodereal.io/ws/v1/34f5274ae22f44cd88739a067d4d9a26", weight: 300 },
+    { url: "wss://opbnb-mainnet.nodereal.io/ws/v1/0601375725ad4c9f8273d193de68cd5f", weight: 300 },
+    { url: "wss://opbnb-mainnet.nodereal.io/ws/v1/914171a9bcd741fda010cb7cc5a7113d", weight: 300 },
+    { url: "wss://opbnb-mainnet.nodereal.io/ws/v1/23823ed4d16e4a8984a1ae11fb21135a", weight: 300 },
   ]
 };
 
@@ -158,6 +166,7 @@ function countGetNetworkBaseUrl() {
 setInterval(countGetNetworkBaseUrl, 1000);
 
 export function getNetworkBaseUrl() {
+  return "https://opbnb-mainnet-rpc.bnbchain.org"
   callCount++
   const totalWeight = config.networkBaseUrlList.reduce((sum, entry) => sum + entry.weight, 0);
 
@@ -176,4 +185,24 @@ export function getNetworkBaseUrl() {
 
   // 如果所有URL的权重都是0，或者发生其他问题，返回数组的第一个URL
   return config.networkBaseUrlList[0].url;
+}
+
+export function getWsNetworkBaseUrl() {
+  const totalWeight = config.wsNetworkBaseUrlList.reduce((sum, entry) => sum + entry.weight, 0);
+
+  let randomWeight = Math.random() * totalWeight;
+  for (const entry of config.wsNetworkBaseUrlList) {
+    randomWeight -= entry.weight;
+    if (randomWeight <= 0) {
+      // 返回被选中的URL
+      var url = entry.url
+      var currentTime = new Date();
+      var formattedTime = currentTime.toLocaleTimeString();
+      console.log(`get-ws-network-url: ${url} ${formattedTime}`)
+      return entry.url;
+    }
+  }
+
+  // 如果所有URL的权重都是0，或者发生其他问题，返回数组的第一个URL
+  return config.wsNetworkBaseUrlList[0].url;
 }

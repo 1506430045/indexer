@@ -2,7 +2,7 @@ import { StaticJsonRpcProvider, WebSocketProvider } from "@ethersproject/provide
 import Arweave from "arweave";
 
 import { logger } from "@/common/logger";
-import {config, getNetworkBaseUrl} from "@/config/index";
+import {config, getNetworkBaseUrl, getWsNetworkBaseUrl} from "@/config/index";
 import getUuidByString from "uuid-by-string";
 
 // Use a static provider to avoid redundant `eth_chainId` calls
@@ -44,7 +44,7 @@ export function getBaseProvider() {
 export const safeWebSocketSubscription = (
   callback: (provider: WebSocketProvider) => Promise<void>
 ) => {
-  const webSocketProvider = new WebSocketProvider(config.baseNetworkWsUrl);
+  const webSocketProvider = new WebSocketProvider(getWsNetworkBaseUrl());
   webSocketProvider.on("error", (error) => {
     logger.error("websocket-provider", `WebSocket subscription failed: ${error}`);
   });
